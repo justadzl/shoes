@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>StepUpZone - Shoe Brands</title>
+  <style>
+    body {
+      background-image: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1470&q=80');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin: 0;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+      min-height: 100vh;
+    }
+
+    h1.site-title {
+      font-size: 3rem;
+      font-weight: 900;
+      letter-spacing: 3px;
+      margin-bottom: 0;
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 2px 2px 5px rgba(0,0,0,0.9);
+    }
+
+    h2.subtitle {
+      margin-top: 0;
+      font-weight: 400;
+      color: #ddd;
+      margin-bottom: 25px;
+      font-size: 1.3rem;
+      letter-spacing: 1px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 20px;
+      background-color: rgba(255, 255, 255, 0.85);
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 900px;
+      margin-left: auto;
+      margin-right: auto;
+      color: black;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+
+    .item {
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      width: 150px;
+      padding: 10px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .item:hover {
+      transform: scale(1.05);
+    }
+
+    .item img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      border-radius: 5px;
+    }
+
+    .item p {
+      margin: 8px 0 0;
+      font-weight: bold;
+    }
+
+    #detail-box {
+      position: relative;
+      margin-top: 30px;
+      background: rgba(255,255,255,0.95);
+      padding: 20px;
+      border-radius: 10px;
+      width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+      box-shadow: 0 0 15px rgba(0,0,0,0.3);
+      display: none;
+      color: black;
+    }
+
+    #detail-box img {
+      width: 100%;
+      height: 200px;
+      object-fit: contain;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    #detail-box h3 {
+      margin: 10px 0 5px;
+    }
+
+    .detail-text {
+      text-align: left;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 20px;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .close-btn:hover {
+      color: red;
+    }
+
+    #detail-link {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: #007BFF;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    #detail-link:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="site-title">StepUpZone</h1>
+  <h2 class="subtitle">Shoe List - Click to View Details</h2>
+
+  <div class="container" id="item-list"></div>
+
+  <div id="detail-box">
+    <span class="close-btn" id="close-btn">&times;</span>
+    <img id="detail-img" src="" alt="Shoe" />
+    <h3 id="detail-name"></h3>
+    <div class="detail-text">
+      <p><strong>Price:</strong> <span id="detail-price"></span></p>
+      <p><strong>Available Sizes:</strong> <span id="detail-size"></span></p>
+      <p><strong>Made in:</strong> <span id="detail-origin"></span></p>
+      <a id="detail-link" href="#" target="_blank">Visit Brand Website</a>
+    </div>
+  </div>
+
+  <script>
+    const products = [
+      {
+        name: 'Nike',
+        price: 669.00,
+        img: 'https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/c1f84685-9d3c-4d56-93e1-5ec93497a910/W+NIKE+VOMERO+18.png',
+        size: ['US 7', 'US 8', 'US 9', 'US 10'],
+        origin: 'Vietnam',
+        link: 'https://www.nike.com/my/w/nike-shoes-3n82y'
+      },
+      {
+        name: 'Hoka',
+        price: 699.00,
+        img: 'https://www.bfgcdn.com/1500_1500_90/123-1673-0111/hoka-womens-clifton-9-gtx-running-shoes.jpg',
+        size: ['US 6', 'US 7', 'US 8.5'],
+        origin: 'Indonesia',
+        link: 'https://www.hoka.com'
+      },
+      {
+        name: 'Adidas',
+        price: 315.50,
+        img: 'https://assets.adidas.com/images/w_600,f_auto,q_auto/c37c971514a441898f2bca0bbb001a04_9366/Response_Runner_Shoes_Black_IH3579_01_standard.jpg',
+        size: ['US 8', 'US 9', 'US 10.5'],
+        origin: 'China',
+        link: 'https://www.adidas.com.my'
+      },
+      {
+        name: 'ASICS',
+        price: 388.90,
+        img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5gu28qp_TcP4-mSUd7Uf_ELyW2PsvDme7TA&s',
+        size: ['US 7.5', 'US 8', 'US 9.5'],
+        origin: 'Thailand',
+        link: 'https://www.asics.com/my/en-my'
+      },
+      {
+        name: 'Puma',
+        price: 169.00,
+        img: 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/377873/06/sv01/fnd/SEA/fmt/png/Better-Foam-Legacy-Running-Shoes',
+        size: ['US 6', 'US 7', 'US 8', 'US 9'],
+        origin: 'India',
+        link: 'https://my.puma.com'
+      },
+      {
+        name: 'New Balance',
+        price: 398.90,
+        img: 'https://nb.scene7.com/is/image/NB/w880k14_nb_02_i?$pdpflexf2$&wid=440&hei=440',
+        size: ['US 7', 'US 8', 'US 9.5'],
+        origin: 'USA',
+        link: 'https://www.newbalance.com.my'
+      }
+    ];
+
+    const container = document.getElementById('item-list');
+    const detailBox = document.getElementById('detail-box');
+    const detailImg = document.getElementById('detail-img');
+    const detailName = document.getElementById('detail-name');
+    const detailPrice = document.getElementById('detail-price');
+    const detailSize = document.getElementById('detail-size');
+    const detailOrigin = document.getElementById('detail-origin');
+    const detailLink = document.getElementById('detail-link');
+    const closeBtn = document.getElementById('close-btn');
+
+    products.forEach((product, index) => {
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `<img src="${product.img}" alt="${product.name}"><p>${index + 1}. ${product.name}</p>`;
+      div.onclick = () => {
+        detailImg.src = product.img;
+        detailName.textContent = product.name;
+        detailPrice.textContent = `RM ${product.price.toFixed(2)}`;
+        detailSize.textContent = product.size.join(', ');
+        detailOrigin.textContent = product.origin;
+        detailLink.href = product.link;
+        detailLink.textContent = `Visit ${product.name} Website`;
+        detailBox.style.display = 'block';
+        window.scrollTo({ top: detailBox.offsetTop - 20, behavior: 'smooth' });
+      };
+      container.appendChild(div);
+    });
+
+    closeBtn.onclick = () => {
+      detailBox.style.display = 'none';
+    };
+  </script>
+
+</body>
+</html>
